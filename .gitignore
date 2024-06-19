@@ -2,3 +2,5 @@ env
 speedtest_results*
 .vscode/
 __pycache__/
+build
+dist
