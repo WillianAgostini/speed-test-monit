@@ -1,2 +1,4 @@
 env
-speedtest_results
+speedtest_results*
+.vscode/
+__pycache__/

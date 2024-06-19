@@ -1,15 +1,15 @@
-import json
 import speedtest
 from datetime import datetime
-import os
 import time
 import argparse
 import threading
+from save import save_results_to_csv, save_results_to_json
+
 
 def run_speedtest():
     threads = None
     s = speedtest.Speedtest()
-    s.get_best_server()
+    s.get_servers()
     s.download(threads=threads)
     s.upload(threads=threads)
     s.results.share()
@@ -22,22 +22,12 @@ def run_speedtest():
     results['uploadMbps'] = round(results['upload'] / 1_000_000, 2)
     return results
 
-def save_results_to_json(results):
-    results_dir = "speedtest_results"
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir)
-    
-    now = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
-    filename = os.path.join(results_dir, f"{now}.json")
-    with open(filename, 'w') as json_file:
-        json.dump(results, json_file, indent=4)
-    return filename
-
 def execute():
     now = datetime.now().strftime("%H:%M:%S")
     print(f"Execution started at {now}")
 
     results = run_speedtest()
+    save_results_to_csv(results)
     filename = save_results_to_json(results)
     
     print(f"url: {results.get('url')}")
