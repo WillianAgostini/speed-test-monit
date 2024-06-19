@@ -8,7 +8,7 @@ def save_results_to_json(results):
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
     
-    now = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    now = datetime.now().strftime("%Y-%m-%d_at_%H-%M-%S")
     filename = os.path.join(results_dir, f"{now}.json")
     with open(filename, 'w') as json_file:
         json.dump(results, json_file, indent=4)
