@@ -60,7 +60,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run speedtest at regular intervals.")
     parser.add_argument(
         "-t", "--time", 
-        type=float, 
+        type=int, 
         default=60, 
         help="Time in minutes between each speedtest execution"
     )
