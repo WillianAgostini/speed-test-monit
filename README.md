@@ -16,6 +16,8 @@ Speed Test Monitor is a Python-based application designed to monitor internet sp
 
 ## Installation
 
+### Local Installation
+
 1. Clone the repository:
     ```sh
     git clone https://github.com/WillianAgostini/speed-test-monit.git
@@ -29,11 +31,23 @@ Speed Test Monitor is a Python-based application designed to monitor internet sp
     pip install -r requirements.txt
     ```
 
+### Docker Installation
+
+1. Build the Docker image:
+    ```sh
+    docker build -t speed-test-monit .
+    ```
+
+2. Run the Docker container with a custom time interval (e.g., every 30 minutes):
+    ```sh
+    docker run -v $(pwd)/speedtest_results:/app/speedtest_results speed-test-monit python src/main.py -t 30
+    ```
+
 ## Usage
 
-To start monitoring the internet speed, run the main script:
+To start monitoring the internet speed with a local installation, run the main script:
 ```sh
-python src/main.py
+python src/main.py -t 60  # Default is 60 minutes if no -t parameter is provided
 ```
 
 ## Releases
