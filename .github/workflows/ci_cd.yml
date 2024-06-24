@@ -1,4 +1,4 @@
-name: PyInstaller CD
+name: PyInstaller CI & CD
 
 on:
   push:
