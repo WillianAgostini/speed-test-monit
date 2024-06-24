@@ -3,10 +3,14 @@ import json
 from datetime import datetime, timedelta, timezone
 import os
 
-def save_results_to_json(results):
+def ensure_results_dir_exists():
     results_dir = "speedtest_results"
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
+    return results_dir
+
+def save_results_to_json(results):
+    results_dir = ensure_results_dir_exists()
     
     now = datetime.now().strftime("%Y-%m-%d_at_%H-%M-%S")
     filename = os.path.join(results_dir, f"{now}.json")
@@ -19,7 +23,11 @@ def convert_timestamp(timestamp_str):
     gmt3 = timestamp - timedelta(hours=3)
     return gmt3.strftime('%Y-%m-%d %H:%M:%S')
 
-def save_results_to_csv(results, filename='speedtest_results.csv'):
+def save_results_to_csv(results, filename='results.csv'):
+    results_dir = ensure_results_dir_exists()
+    
+    filename = os.path.join(results_dir, filename)
+    
     headers = [
         'timestamp', 'downloadMbps', 'uploadMbps', 'ping', 'url',
         'server.name', 'server.latency', 'client.ip', 'client.isp',

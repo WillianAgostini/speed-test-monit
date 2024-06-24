@@ -4,11 +4,6 @@ from sys import platform
 
 class AbstractSystemActivityController:
 
-    def __init__(self):
-        print(
-            "System activity controller is not implemented for this platform, you may experience system sleep issues."
-        )
-
     def keep_system_active(self):
         pass
 

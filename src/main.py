@@ -33,17 +33,17 @@ def run_speedtest():
 
 def execute():
     now = datetime.now().strftime("%H:%M:%S")
-    print(f"Execution started at {now}")
+    print(f"Execution started at {now}",  flush=True)
 
     results = run_speedtest()
     save_results_to_csv(results)
     filename = save_results_to_json(results)
     
-    print(f"url: {results.get('url')}")
-    print(f"downloadMbps: {results.get('downloadMbps')}")
-    print(f"uploadMbps: {results.get('uploadMbps')}")
-    print(f"Results saved to {filename}")
-    print("-" * 10)
+    print(f"url: {results.get('url')}",  flush=True)
+    print(f"downloadMbps: {results.get('downloadMbps')}",  flush=True)
+    print(f"uploadMbps: {results.get('uploadMbps')}",  flush=True)
+    print(f"Results saved to {filename}",  flush=True)
+    print("-" * 10,  flush=True)
 
 def main(interval):
     system_activity_controller = create_system_activity_controller()
@@ -53,11 +53,12 @@ def main(interval):
             execute()
             time.sleep(interval)
         except KeyboardInterrupt:
-            print("Execution interrupted by user.")
-            break
+            print("Execution interrupted by user.",  flush=True)
+            system_activity_controller.release_system_activity()
+            exit()
         except Exception as e:
             time.sleep(10)
-            print(f"An error occurred: {e}")
+            print(f"An error occurred: {e}",  flush=True)
 
 
 if __name__ == "__main__":
@@ -70,5 +71,5 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     interval = args.time * 60  # Convert minutes to seconds
-    print(f"Loop interval set to {args.time} minutes.")
+    print(f"Loop interval set to {args.time} minutes.",  flush=True)
     main(interval)
