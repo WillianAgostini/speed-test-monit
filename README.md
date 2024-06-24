@@ -40,6 +40,10 @@ python src/main.py
 
 Releases for Windows and Linux can be found in the [Releases](https://github.com/WillianAgostini/speed-test-monit/releases) section.
 
+## Speedtest CLI
+
+This project utilizes [SPEEDTEST® CLI](https://www.speedtest.net/apps/cli) to execute the speed tests. For more information, visit the [Speedtest website](https://www.speedtest.net/).
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
