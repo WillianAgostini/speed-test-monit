@@ -77,37 +77,14 @@ jobs:
         with:
           path: ./
 
-      - name: Determine next version tag
-        id: tag
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const tags = await github.paginate('GET /repos/{owner}/{repo}/tags', {
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-
-            let version;
-            if (tags.length === 0) {
-              version = 'v0.0.1';
-            } else {
-              const latestTag = tags[0].name;
-              const [major, minor, patch] = latestTag.replace('v', '').split('.').map(Number);
-              version = `v${major}.${minor}.${patch + 1}`;
-            }
-
-            core.setOutput('next_tag', version);
-        outputs:
-          next_tag: next_tag
-
       - name: Create github release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.next_tag }}
-          release_name: Release Version ${{ steps.tag.outputs.next_tag }}
+          tag_name: v${{ github.run_number }}
+          release_name: Release Version ${{ github.run_number }}
           draft: false
           prerelease: false
 
