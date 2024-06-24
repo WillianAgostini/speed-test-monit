@@ -2,16 +2,25 @@ import speedtest
 from datetime import datetime
 import time
 import argparse
-import threading
 from save import save_results_to_csv, save_results_to_json
+from thread_execution_state_controller import create_system_activity_controller
 
+config = None
+
+def getSpeedTest():
+    global config
+    try:
+        s = speedtest.Speedtest()
+        config = s.get_config()
+        return s
+    except:
+        return speedtest.Speedtest(config=config)
 
 def run_speedtest():
-    threads = None
-    s = speedtest.Speedtest()
-    s.get_servers()
-    s.download(threads=threads)
-    s.upload(threads=threads)
+    s = getSpeedTest()
+    s.get_best_server()
+    s.download(threads=None)
+    s.upload(threads=None)
     s.results.share()
     results = s.results.dict()
     
@@ -37,14 +46,19 @@ def execute():
     print("-" * 10)
 
 def main(interval):
+    system_activity_controller = create_system_activity_controller()
     while True:
+        system_activity_controller.keep_system_active()
         try:
-            thread = threading.Thread(target=execute)
-            thread.start()
+            execute()
+            time.sleep(interval)
+        except KeyboardInterrupt:
+            print("Execution interrupted by user.")
+            break
         except Exception as e:
+            time.sleep(10)
             print(f"An error occurred: {e}")
 
-        time.sleep(interval)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run speedtest at regular intervals.")
